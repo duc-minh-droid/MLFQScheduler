@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MLFQ Visualizer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <h1>MLFQ Scheduler</h1>
+    <span class="sub">tick-by-tick trace of a multi-level feedback queue</span>
+  </div>
+  <div class="top-right">
+    <label class="preset">Preset
+      <select id="preset"></select>
+    </label>
+    <span id="source" class="source"></span>
+  </div>
+</header>
+
+<main class="layout">
+  <section class="left">
+    <div class="stage" id="stage">
+      <div class="row-top">
+        <div class="tray" id="tray-new"><div class="tray-title">Not arrived</div></div>
+        <div class="cpu" id="cpu">
+          <div class="cpu-title">CPU</div>
+          <div class="cpu-slot" id="cpu-slot"></div>
+          <div class="cpu-info">
+            <div id="cpu-state" class="cpu-state">idle</div>
+            <div class="slice"><div class="slice-fill" id="slice-fill"></div></div>
+            <div id="slice-text" class="slice-text">&nbsp;</div>
+          </div>
+        </div>
+        <div class="tray" id="tray-done"><div class="tray-title">Finished</div></div>
+      </div>
+      <div class="lane" data-lane="0"><div class="lane-label"><b>L0</b><span class="q"></span><small>highest</small></div><div class="lane-slots"></div></div>
+      <div class="lane" data-lane="1"><div class="lane-label"><b>L1</b><span class="q"></span><small>&nbsp;</small></div><div class="lane-slots"></div></div>
+      <div class="lane" data-lane="2"><div class="lane-label"><b>L2</b><span class="q"></span><small>lowest</small></div><div class="lane-slots"></div></div>
+      <div class="lane io" data-lane="io"><div class="lane-label"><b>I/O</b><span class="q">blocked</span><small>FIFO device</small></div><div class="lane-slots"></div></div>
+      <div class="boost-banner" id="boost-banner">PRIORITY BOOST: everyone back to L0</div>
+      <div id="tokens"></div>
+    </div>
+
+    <div class="events" id="events"></div>
+
+    <div class="gantt-wrap">
+      <div class="gantt-head">
+        <h2>Gantt chart</h2>
+        <div class="legend">
+          <span><i class="sw l0"></i>ran at L0</span>
+          <span><i class="sw l1"></i>L1</span>
+          <span><i class="sw l2"></i>L2</span>
+          <span><i class="sw wait"></i>ready, waiting</span>
+          <span><i class="sw io"></i>blocked on I/O</span>
+        </div>
+      </div>
+      <div class="gantt-scroll"><svg id="gantt"></svg></div>
+    </div>
+  </section>
+
+  <aside class="right">
+    <div class="panel controls">
+      <div class="tick-readout"><span>tick</span><b id="tick">-</b><span id="tick-total" class="dim"></span></div>
+      <div class="buttons">
+        <button id="btn-reset" title="Reset (Home)">&#x23EE;</button>
+        <button id="btn-back" title="Step back (Left)">&#x25C0;&#xFE0E;|</button>
+        <button id="btn-play" class="play" title="Play / pause (Space)">Play</button>
+        <button id="btn-step" title="Step forward (Right)">|&#x25B6;&#xFE0E;</button>
+      </div>
+      <input type="range" id="scrub" min="-1" max="0" value="-1" aria-label="timeline">
+      <label class="speed">Speed <input type="range" id="speed" min="0" max="5" value="2"><span id="speed-text"></span></label>
+    </div>
+
+    <div class="panel editor">
+      <div class="panel-head">
+        <h2>Workload</h2>
+        <span class="dim small">pid arrival burst io_every io_dur</span>
+      </div>
+      <textarea id="workload" spellcheck="false"></textarea>
+      <div class="editor-actions">
+        <button id="btn-run" class="primary">Run workload</button>
+        <button id="btn-revert">Revert to preset</button>
+      </div>
+      <div id="editor-msg" class="msg"></div>
+    </div>
+
+    <div class="panel stats">
+      <div class="panel-head"><h2>Per-process stats</h2><span id="stats-note" class="dim small"></span></div>
+      <table id="stats-table"></table>
+      <div id="stats-avg" class="avg"></div>
+    </div>
+  </aside>
+</main>
+
+<script src="data/presets.js"></script>
+<script src="mlfq.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
