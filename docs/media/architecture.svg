@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 250" width="860" height="250" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <style>
+    .bg { fill: #ffffff; }
+    .ink { fill: #1f2430; }
+    .dim { fill: #5d6575; }
+    .box { fill: #f3f5f8; stroke: #c9d0db; }
+    .cpp { fill: #eaf7f1; stroke: #3fb68b; }
+    .js { fill: #fdf5e6; stroke: #e0a93b; }
+    .web { fill: #eef3ff; stroke: #4c6fd1; }
+    .line { stroke: #8a93a3; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0f1218; }
+      .ink { fill: #e6e8ec; }
+      .dim { fill: #9aa3b2; }
+      .box { fill: #1a1f28; stroke: #2e3543; }
+      .cpp { fill: #13241e; stroke: #3fb68b; }
+      .js { fill: #2a2314; stroke: #e0a93b; }
+      .web { fill: #182238; stroke: #7aa7ff; }
+      .line { stroke: #6b7486; }
+    }
+  </style>
+  <defs>
+    <marker id="b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a93a3"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="860" height="250" rx="14"/>
+  <text class="ink" x="30" y="36" font-size="19" font-weight="700">Where the visualizer's data comes from</text>
+
+  <g font-size="12.5">
+    <rect class="box" x="30" y="62" width="160" height="70" rx="10"/>
+    <text class="ink" x="46" y="88" font-weight="700">workloads/*.txt</text>
+    <text class="dim" x="46" y="108">pid arrival burst</text>
+    <text class="dim" x="46" y="123">io_every io_duration</text>
+
+    <rect class="cpp" x="250" y="62" width="180" height="70" rx="10" stroke-width="2"/>
+    <text class="ink" x="266" y="88" font-weight="700">mlfq --trace (C++)</text>
+    <text class="dim" x="266" y="108">Scheduler.h, CPU.h,</text>
+    <text class="dim" x="266" y="123">Process.h, main.cpp</text>
+
+    <rect class="box" x="490" y="62" width="150" height="70" rx="10"/>
+    <text class="ink" x="506" y="88" font-weight="700">web/data/presets.js</text>
+    <text class="dim" x="506" y="108">real traces, bundled</text>
+    <text class="dim" x="506" y="123">by tools/gen-traces</text>
+
+    <rect class="web" x="690" y="62" width="140" height="160" rx="10" stroke-width="2"/>
+    <text class="ink" x="706" y="88" font-weight="700">web/index.html</text>
+    <text class="dim" x="706" y="110">queue lanes</text>
+    <text class="dim" x="706" y="128">moving tokens</text>
+    <text class="dim" x="706" y="146">Gantt chart</text>
+    <text class="dim" x="706" y="164">playback controls</text>
+    <text class="dim" x="706" y="182">workload editor</text>
+
+    <rect class="js" x="250" y="160" width="180" height="62" rx="10" stroke-width="2"/>
+    <text class="ink" x="266" y="186" font-weight="700">web/mlfq.js (JS port)</text>
+    <text class="dim" x="266" y="206">runs workloads you edit</text>
+
+    <rect class="box" x="30" y="160" width="160" height="62" rx="10"/>
+    <text class="ink" x="46" y="186" font-weight="700">tools/verify-js-port</text>
+    <text class="dim" x="46" y="206">diffs both on 1000+ runs</text>
+  </g>
+  <g class="line" stroke-width="2" fill="none" marker-end="url(#b)">
+    <path d="M190 97 H 246"/>
+    <path d="M430 97 H 486"/>
+    <path d="M640 97 H 686"/>
+    <path d="M430 191 H 686"/>
+  </g>
+  <g class="line" stroke-width="2" fill="none" stroke-dasharray="4 3">
+    <path d="M190 191 H 250"/>
+    <path d="M150 160 L 250 128"/>
+  </g>
+  <text class="dim" x="560" y="184" font-size="11.5" text-anchor="middle">only for edited workloads</text>
+</svg>

@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 330" width="860" height="330" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <style>
+    .bg { fill: #ffffff; }
+    .ink { fill: #1f2430; }
+    .dim { fill: #5d6575; }
+    .box { fill: #f3f5f8; stroke: #c9d0db; }
+    .hot { fill: #eef3ff; stroke: #4c6fd1; }
+    .line { stroke: #8a93a3; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0f1218; }
+      .ink { fill: #e6e8ec; }
+      .dim { fill: #9aa3b2; }
+      .box { fill: #1a1f28; stroke: #2e3543; }
+      .hot { fill: #182238; stroke: #7aa7ff; }
+      .line { stroke: #6b7486; }
+    }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a93a3"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="860" height="330" rx="14"/>
+  <text class="ink" x="30" y="38" font-size="19" font-weight="700">One global tick, in order</text>
+  <text class="dim" x="30" y="58" font-size="13">main.cpp runs this loop until every process has terminated, and records a snapshot at the end of each tick.</text>
+
+  <g font-size="12.5" text-anchor="middle">
+    <rect class="box" x="30"  y="84" width="120" height="74" rx="10"/>
+    <text class="ink" x="90" y="110" font-weight="700">1. Arrivals</text>
+    <text class="dim" x="90" y="130">arrival == t</text>
+    <text class="dim" x="90" y="146">join L0</text>
+
+    <rect class="box" x="168" y="84" width="120" height="74" rx="10"/>
+    <text class="ink" x="228" y="110" font-weight="700">2. I/O tick</text>
+    <text class="dim" x="228" y="130">head of blocked</text>
+    <text class="dim" x="228" y="146">queue gets 1 tick</text>
+
+    <rect class="box" x="306" y="84" width="120" height="74" rx="10"/>
+    <text class="ink" x="366" y="110" font-weight="700">3. Boost?</text>
+    <text class="dim" x="366" y="130">t % N == 0</text>
+    <text class="dim" x="366" y="146">all to L0</text>
+
+    <rect class="box" x="444" y="84" width="120" height="74" rx="10"/>
+    <text class="ink" x="504" y="110" font-weight="700">4. Dispatch</text>
+    <text class="dim" x="504" y="130">if CPU idle: front</text>
+    <text class="dim" x="504" y="146">of top queue</text>
+
+    <rect class="hot" x="582" y="84" width="120" height="74" rx="10" stroke-width="2"/>
+    <text class="ink" x="642" y="110" font-weight="700">5. CPU tick</text>
+    <text class="dim" x="642" y="130">remaining - 1</text>
+    <text class="dim" x="642" y="146">check result</text>
+
+    <rect class="box" x="720" y="84" width="112" height="74" rx="10"/>
+    <text class="ink" x="776" y="110" font-weight="700">6. Snapshot</text>
+    <text class="dim" x="776" y="130">queues, CPU,</text>
+    <text class="dim" x="776" y="146">events, procs</text>
+  </g>
+  <g class="line" stroke-width="2" fill="none" marker-end="url(#a)">
+    <path d="M150 121 H 164"/><path d="M288 121 H 302"/><path d="M426 121 H 440"/>
+    <path d="M564 121 H 578"/><path d="M702 121 H 716"/>
+  </g>
+
+  <!-- results of CPU tick -->
+  <g font-size="12.5">
+    <path class="line" d="M642 158 V 180 H 170 V 196" stroke-width="2" fill="none" marker-end="url(#a)"/>
+    <path class="line" d="M642 180 H 430 V 196" stroke-width="2" fill="none" marker-end="url(#a)"/>
+    <path class="line" d="M642 180 H 690 V 196" stroke-width="2" fill="none" marker-end="url(#a)"/>
+    <text class="dim" x="660" y="175" font-size="12">first match wins</text>
+
+    <rect class="box" x="60" y="200" width="220" height="64" rx="10"/>
+    <circle cx="80" cy="220" r="6" fill="#3fb68b"/>
+    <text class="ink" x="94" y="224" font-weight="700">remaining == 0</text>
+    <text class="dim" x="80" y="248">TERMINATED, finish = t + 1</text>
+
+    <rect class="box" x="320" y="200" width="220" height="64" rx="10"/>
+    <circle cx="340" cy="220" r="6" fill="#6f86d6"/>
+    <text class="ink" x="354" y="224" font-weight="700">ran io_every ticks</text>
+    <text class="dim" x="340" y="248">BLOCKED: promote, join I/O queue</text>
+
+    <rect class="box" x="580" y="200" width="220" height="64" rx="10"/>
+    <circle cx="600" cy="220" r="6" fill="#e0664f"/>
+    <text class="ink" x="614" y="224" font-weight="700">quantum used up</text>
+    <text class="dim" x="600" y="248">PREEMPTED: demote, re-enqueue</text>
+  </g>
+
+  <text class="dim" x="30" y="298" font-size="12.5">Otherwise the process keeps the CPU next tick. Snapshots become the <tspan class="ink" font-family="Consolas, monospace">--trace</tspan> JSON that the web visualizer plays back.</text>
+</svg>
