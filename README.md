@@ -1,5 +1,7 @@
 # MLFQ Scheduler
 
+**Live demo:** https://mlfq-scheduler.vercel.app
+
 A small C++ simulator of a Multi-Level Feedback Queue CPU scheduler, plus a browser visualizer that replays its tick-by-tick trace.
 
 ![Demo: the visualizer playing a trace](docs/media/demo.gif)
