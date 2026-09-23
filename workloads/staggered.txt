@@ -1,0 +1,10 @@
+# Five processes arriving over time with different CPU/I-O mixes.
+name Staggered arrivals
+quanta 2 4 8
+boost 20
+# pid arrival burst io_every io_duration
+1 0 9
+2 1 4 2 3
+3 3 7
+4 6 3 1 2
+5 10 6 3 1

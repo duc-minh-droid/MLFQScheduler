@@ -25,7 +25,7 @@ private:
 public:
 	CPU(ProcessTable& ptable) : 
 		ptable_(ptable), state_(CPU_STATE::IDLE), 
-		current_pid_(0), ticks_used_(0), quantum_(2) {}
+		current_pid_(0), quantum_(2), ticks_used_(0) {}
 
 	TickResult tick() {
 		if (state_ == CPU_STATE::IDLE) return TickResult::NONE;
@@ -35,9 +35,14 @@ public:
 		current_process.tick();
 		ticks_used_++;
 
-		std::cout << "Processing process with id " << current_pid_ << std::endl;
-		std::cout << "Remaining ticks: " << current_process.ticks() << std::endl;
-		
+		// Finishing wins over blocking: a process that uses its last tick must
+		// terminate here, not go off to I/O and come back with 0 ticks left.
+		if (current_process.ticks() == 0) {
+			current_process.setState(PROCESS_STATE::TERMINATED);
+			state_ = CPU_STATE::IDLE;
+			return TickResult::TERMINATED;
+		}
+
 		if (current_process.io_block_every_ != -1) {
 			current_process.cpu_ticks_used_++;
 			if (current_process.cpu_ticks_used_ == current_process.io_block_every_) {
@@ -46,13 +51,6 @@ public:
 				state_ = CPU_STATE::IDLE;
 				return TickResult::BLOCKED;
 			}
-		}
-
-		if (current_process.ticks() == 0) {
-			current_process.setState(PROCESS_STATE::TERMINATED);
-			state_ = CPU_STATE::IDLE;
-			std::cout << "Process " << current_pid_ << " terminated\n";
-			return TickResult::TERMINATED;
 		}
 
 		if (ticks_used_ == quantum_) {
@@ -75,5 +73,6 @@ public:
 	}
 	CPU_STATE state() { return state_; }
 	int current_pid() { return current_pid_; }
+	int quantum() const { return quantum_; }
+	int ticks_used() const { return ticks_used_; }
 };
-

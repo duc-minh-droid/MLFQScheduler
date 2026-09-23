@@ -1,0 +1,10 @@
+# Two CPU-bound batch jobs and two interactive jobs that block for I/O often.
+# The batch jobs sink to level 2; the interactive jobs stay near the top.
+name Interactive vs batch
+quanta 1 2 4
+boost 0
+# pid arrival burst io_every io_duration
+1 0 14
+2 0 12
+3 1 6 1 2
+4 2 6 2 2

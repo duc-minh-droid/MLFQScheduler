@@ -21,6 +21,12 @@
     <ClInclude Include="Scheduler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Trace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Workload.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="CPU.h">
       <Filter>Header Files</Filter>
     </ClInclude>

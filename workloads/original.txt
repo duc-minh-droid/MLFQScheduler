@@ -1,0 +1,7 @@
+# The two processes from the original main.cpp.
+name Original demo
+quanta 1 2 4
+boost 0
+# pid arrival burst io_every io_duration
+1 0 3
+2 0 4 2 1

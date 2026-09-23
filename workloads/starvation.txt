@@ -1,0 +1,9 @@
+# Without a priority boost, two I/O-heavy jobs keep level 0 busy and the
+# long CPU-bound job sitting in level 2 gets no CPU until they finish.
+name Starvation (no boost)
+quanta 1 2 4
+boost 0
+# pid arrival burst io_every io_duration
+1 0 10
+2 2 12 1 1
+3 3 12 1 1

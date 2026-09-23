@@ -131,6 +131,8 @@
     <ClInclude Include="CPU.h" />
     <ClInclude Include="Process.h" />
     <ClInclude Include="Scheduler.h" />
+    <ClInclude Include="Trace.h" />
+    <ClInclude Include="Workload.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CPU.cpp" />

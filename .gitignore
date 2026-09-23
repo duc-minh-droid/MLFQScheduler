@@ -98,3 +98,13 @@ Desktop.ini
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
+
+# CMake / g++ build output
+build/
+build-*/
+CMakeFiles/
+CMakeCache.txt
+*.exe
+
+# Node (tools/ scripts need no packages, but just in case)
+node_modules/

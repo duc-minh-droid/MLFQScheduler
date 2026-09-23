@@ -1,0 +1,9 @@
+# Same workload as starvation.txt, but every 8 ticks all processes are
+# boosted back to level 0, so the long job keeps making progress.
+name Starvation fixed by boost
+quanta 1 2 4
+boost 8
+# pid arrival burst io_every io_duration
+1 0 10
+2 2 12 1 1
+3 3 12 1 1
